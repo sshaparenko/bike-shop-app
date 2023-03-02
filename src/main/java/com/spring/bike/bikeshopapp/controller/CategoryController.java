@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * TODO:
  * get all categories
  * delete category
  * update category
@@ -42,7 +41,7 @@ public class CategoryController {
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Long id) {
-        if(Objects.nonNull(service.readCategory(id))) {
+        if(service.readCategory(id).isPresent()) {
             service.deleteCategory(id);
             return new ResponseEntity<>(new ApiResponse(true, "category was deleted successfully"), HttpStatus.OK);
         }

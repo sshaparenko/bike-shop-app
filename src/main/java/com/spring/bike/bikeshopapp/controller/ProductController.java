@@ -1,13 +1,18 @@
 package com.spring.bike.bikeshopapp.controller;
 
+import com.spring.bike.bikeshopapp.common.ApiResponse;
+import com.spring.bike.bikeshopapp.entity.Category;
 import com.spring.bike.bikeshopapp.model.ProductDTO;
+import com.spring.bike.bikeshopapp.service.CategoryService;
 import com.spring.bike.bikeshopapp.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * all products
@@ -18,14 +23,42 @@ import java.util.List;
 @RestController
 @RequestMapping("/product")
 public class ProductController {
-    private ProductService service;
+    private ProductService productService;
+    private CategoryService categoryService;
     @Autowired
-    public ProductController(ProductService service) {
-        this.service = service;
+    public ProductController(ProductService productService, CategoryService categoryService) {
+        this.productService = productService;
+        this.categoryService = categoryService;
     }
     @GetMapping("/")
     public List<ProductDTO> getProducts() {
-        return service.listProducts();
+        return productService.listProducts();
     }
-    
+    @PostMapping("/create")
+    public ResponseEntity<ApiResponse> addProduct(@Valid @RequestBody ProductDTO productDTO) {
+        Optional<Category> optionalCategory = categoryService.readCategory(productDTO.getCategoryId());
+        if (optionalCategory.isEmpty()) return new ResponseEntity<>(new ApiResponse(false, "category is invalid"), HttpStatus.NOT_FOUND);
+        Category category = optionalCategory.get();
+        productService.createProduct(productDTO, category);
+        return new ResponseEntity<>(new ApiResponse(true, "new product was created successfully"), HttpStatus.CREATED);
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ApiResponse> deleteProduct(@PathVariable Long id) {
+        if (productService.readProduct(id).isPresent()) {
+            productService.deleteProduct(id);
+            return new ResponseEntity<>(new ApiResponse(true, "product was deleted successfully"), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new ApiResponse(false, "product id is invalid"), HttpStatus.NOT_FOUND);
+    }
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ApiResponse> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO productDTO) {
+        Optional<Category> optionalCategory = categoryService.readCategory(productDTO.getCategoryId());
+        if (optionalCategory.isEmpty()) return new ResponseEntity<>(new ApiResponse(false, "invalid category"), HttpStatus.NOT_FOUND);
+        Category category = optionalCategory.get();
+        if (productService.readProduct(id).isPresent()) {
+            productService.updateProduct(id, productDTO, category);
+            return new ResponseEntity<>(new ApiResponse(true, "product was updated successfully"), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new ApiResponse(true, "product id is invalid"), HttpStatus.NOT_FOUND);
+    }
 }

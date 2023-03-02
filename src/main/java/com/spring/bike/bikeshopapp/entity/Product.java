@@ -25,7 +25,7 @@ public class Product implements Serializable {
     private @NotNull boolean inStorage;
     private
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_category", nullable = false)
     Category category;
 
