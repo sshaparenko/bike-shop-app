@@ -3,6 +3,7 @@ package com.spring.bike.bikeshopapp.controller;
 import com.spring.bike.bikeshopapp.common.ApiResponse;
 import com.spring.bike.bikeshopapp.entity.Category;
 import com.spring.bike.bikeshopapp.service.CategoryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +20,11 @@ import java.util.Objects;
  * create category
  * */
 @RestController
-@RequestMapping("/category")
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/admin/category")
 public class CategoryController {
-    private CategoryService service;
-    @Autowired
-    public CategoryController(CategoryService service) {
-        this.service = service;
-    }
-    @GetMapping("/")
+    private final CategoryService service;
+    @GetMapping()
     public ResponseEntity<List<Category>> getCategories() {
         List<Category> body = service.listCategories();
         return new ResponseEntity<>(body, HttpStatus.OK);

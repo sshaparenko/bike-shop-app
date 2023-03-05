@@ -1,9 +1,10 @@
 package com.spring.bike.bikeshopapp.service;
 
+import com.spring.bike.bikeshopapp.entity.Role;
 import com.spring.bike.bikeshopapp.entity.User;
 import com.spring.bike.bikeshopapp.model.UserDTO;
 import com.spring.bike.bikeshopapp.repository.UserRepository;
-import org.mindrot.jbcrypt.BCrypt;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +13,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    private UserRepository repository;
-    @Autowired
-    public UserService(UserRepository repository) {
-        this.repository = repository;
-    }
+    private final UserRepository repository;
     public List<UserDTO> listUsers() {
         return repository.findAll().stream().map(u -> new UserDTO(u)).collect(Collectors.toList());
     }
@@ -29,36 +27,27 @@ public class UserService {
         return repository.findByLoginName(loginName);
     }
 
-    public void addUser(UserDTO userDTO) {
-        repository.save(DTOtoUser(userDTO));
+    public void addUser(UserDTO userDTO, Role role) {
+        repository.save(DTOtoUser(userDTO, role));
     }
 
-    private User DTOtoUser(UserDTO userDTO) {
+    private User DTOtoUser(UserDTO userDTO, Role role) {
         User user = new User();
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setLoginName(userDTO.getLoginName());
-        user.setPassword(hashPassword(userDTO.getPassword()));
+        user.setPassword(userDTO.getPassword());
         user.setAddress(userDTO.getAddress());
         user.setPhone(userDTO.getPhone());
-        user.setAdminRights(userDTO.getAdminRights());
+        user.setRole(role);
         return user;
     }
-    //try builder here, only required fields should be changed
-    public void updateUser(Long id, UserDTO userDTO) {
-        User user = DTOtoUser(userDTO);
+    public void updateUser(Long id, UserDTO userDTO, Role role) {
+        User user = DTOtoUser(userDTO, role);
         user.setId(id);
         repository.save(user);
     }
     public void deleteUser(Long id) {
         repository.deleteById(id);
-    }
-    private String hashPassword(String password) {
-        String salt = BCrypt.gensalt();
-        return BCrypt.hashpw(password, salt);
-    }
-
-    public boolean checkPassword(String password, String password1) {
-        return BCrypt.checkpw(password, password1);
     }
 }

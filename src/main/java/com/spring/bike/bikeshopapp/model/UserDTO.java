@@ -17,19 +17,19 @@ public class UserDTO {
     private @NotNull String password;
     private @NotNull String address;
     private @NotNull String phone;
-    private @NotNull Boolean adminRights;
+    private @NotNull Long roleId;
 
     public UserDTO() {
     }
 
-    public UserDTO(@NotNull String firstName, @NotNull String lastName, @NotNull String loginName, String password, String address, String phone, Boolean adminRights) {
+    public UserDTO(@NotNull String firstName, @NotNull String lastName, @NotNull String loginName, String password, String address, String phone, Long roleId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.loginName = loginName;
         this.password = password;
         this.address = address;
         this.phone = phone;
-        this.adminRights = adminRights;
+        this.roleId = roleId;
     }
 
     public UserDTO(User user) {
@@ -40,7 +40,7 @@ public class UserDTO {
         this.setPassword(user.getPassword());
         this.setAddress(user.getAddress());
         this.setPhone(user.getPhone());
-        this.setAdminRights(user.getAdminRights());
+        this.setRoleId(user.getRole().getId());
     }
 }
 

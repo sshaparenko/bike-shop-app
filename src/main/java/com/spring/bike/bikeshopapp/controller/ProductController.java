@@ -5,6 +5,7 @@ import com.spring.bike.bikeshopapp.entity.Category;
 import com.spring.bike.bikeshopapp.model.ProductDTO;
 import com.spring.bike.bikeshopapp.service.CategoryService;
 import com.spring.bike.bikeshopapp.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +22,12 @@ import java.util.Optional;
  * add product
  * */
 @RestController
-@RequestMapping("/product")
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/admin/product")
 public class ProductController {
-    private ProductService productService;
-    private CategoryService categoryService;
-    @Autowired
-    public ProductController(ProductService productService, CategoryService categoryService) {
-        this.productService = productService;
-        this.categoryService = categoryService;
-    }
-    @GetMapping("/")
+    private final ProductService productService;
+    private final CategoryService categoryService;
+    @GetMapping()
     public List<ProductDTO> getProducts() {
         return productService.listProducts();
     }
