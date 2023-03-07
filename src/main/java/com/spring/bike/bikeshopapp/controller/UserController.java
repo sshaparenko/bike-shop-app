@@ -6,6 +6,7 @@ import com.spring.bike.bikeshopapp.entity.User;
 import com.spring.bike.bikeshopapp.model.UserDTO;
 import com.spring.bike.bikeshopapp.service.RoleService;
 import com.spring.bike.bikeshopapp.service.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ import java.util.Optional;
  */
 @RestController
 @RequiredArgsConstructor
+@SecurityRequirement(name = "jwt")
 @RequestMapping("/api/v1/admin/users")
 public class UserController {
     private final UserService userService;

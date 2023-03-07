@@ -3,6 +3,7 @@ package com.spring.bike.bikeshopapp.controller;
 import com.spring.bike.bikeshopapp.common.ApiResponse;
 import com.spring.bike.bikeshopapp.entity.Category;
 import com.spring.bike.bikeshopapp.service.CategoryService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import java.util.Objects;
  * */
 @RestController
 @RequiredArgsConstructor
+@SecurityRequirement(name = "jwt")
 @RequestMapping("/api/v1/admin/category")
 public class CategoryController {
     private final CategoryService service;

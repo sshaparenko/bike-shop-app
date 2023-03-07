@@ -16,7 +16,6 @@ import java.io.Serializable;
 public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_product")
     private Long id;
     private @NotNull String name;
     private @NotNull Integer price;

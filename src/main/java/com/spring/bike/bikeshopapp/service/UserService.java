@@ -30,6 +30,9 @@ public class UserService {
     public void addUser(UserDTO userDTO, Role role) {
         repository.save(DTOtoUser(userDTO, role));
     }
+    public void addUser(User user) {
+        repository.save(user);
+    }
 
     private User DTOtoUser(UserDTO userDTO, Role role) {
         User user = new User();

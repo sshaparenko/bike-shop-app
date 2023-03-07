@@ -5,6 +5,7 @@ import com.spring.bike.bikeshopapp.entity.Category;
 import com.spring.bike.bikeshopapp.model.ProductDTO;
 import com.spring.bike.bikeshopapp.service.CategoryService;
 import com.spring.bike.bikeshopapp.service.ProductService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import java.util.Optional;
  * */
 @RestController
 @RequiredArgsConstructor
+@SecurityRequirement(name = "jwt")
 @RequestMapping("/api/v1/admin/product")
 public class ProductController {
     private final ProductService productService;
