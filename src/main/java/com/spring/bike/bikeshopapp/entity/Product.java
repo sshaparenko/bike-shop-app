@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -22,11 +23,13 @@ public class Product implements Serializable {
     private @NotNull String description;
     @Column(name = "in_storage")
     private @NotNull boolean inStorage;
-
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_category", nullable = false)
     Category category;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "products")
+    Set<Order> orders;
 
     public Product(String name, Integer price, String description, boolean inStorage, Category category) {
         this.name = name;
