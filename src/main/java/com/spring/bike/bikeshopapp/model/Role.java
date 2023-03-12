@@ -1,4 +1,4 @@
-package com.spring.bike.bikeshopapp.entity;
+package com.spring.bike.bikeshopapp.model;
 
 import lombok.Data;
 

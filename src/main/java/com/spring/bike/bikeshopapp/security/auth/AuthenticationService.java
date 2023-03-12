@@ -1,10 +1,7 @@
 package com.spring.bike.bikeshopapp.security.auth;
 
-import com.spring.bike.bikeshopapp.common.AuthenticationRequest;
-import com.spring.bike.bikeshopapp.common.AuthenticationResponse;
-import com.spring.bike.bikeshopapp.common.RegisterRequest;
-import com.spring.bike.bikeshopapp.entity.Role;
-import com.spring.bike.bikeshopapp.entity.User;
+import com.spring.bike.bikeshopapp.model.Role;
+import com.spring.bike.bikeshopapp.model.User;
 import com.spring.bike.bikeshopapp.security.config.JwtService;
 import com.spring.bike.bikeshopapp.service.RoleService;
 import com.spring.bike.bikeshopapp.service.UserService;

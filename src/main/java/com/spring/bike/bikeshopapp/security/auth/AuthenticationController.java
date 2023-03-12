@@ -1,8 +1,5 @@
 package com.spring.bike.bikeshopapp.security.auth;
 
-import com.spring.bike.bikeshopapp.common.AuthenticationRequest;
-import com.spring.bike.bikeshopapp.common.AuthenticationResponse;
-import com.spring.bike.bikeshopapp.common.RegisterRequest;
 import com.spring.bike.bikeshopapp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

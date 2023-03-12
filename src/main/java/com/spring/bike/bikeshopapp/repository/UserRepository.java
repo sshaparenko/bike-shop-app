@@ -1,6 +1,6 @@
 package com.spring.bike.bikeshopapp.repository;
 
-import com.spring.bike.bikeshopapp.entity.User;
+import com.spring.bike.bikeshopapp.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
