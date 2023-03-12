@@ -1,4 +1,4 @@
-package com.spring.bike.bikeshopapp.entity;
+package com.spring.bike.bikeshopapp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -22,16 +23,22 @@ public class User implements Serializable, UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "first_name")
+    @NotBlank(message = "invalid firstName")
     private String firstName;
     @Column(name = "last_name")
+    @NotBlank(message = "invalid lastName")
     private String lastName;
     @Column(name = "login_name")
+    @NotBlank(message = "invalid loginName")
     private String loginName;
+    @NotBlank(message = "invalid password")
     private String password;
+    @NotBlank(message = "invalid address")
     private String address;
+    @NotBlank(message = "invalid phone")
     private String phone;
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_role", nullable = false)
     Role role;
 
