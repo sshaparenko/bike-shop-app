@@ -1,10 +1,14 @@
 package com.spring.bike.bikeshopapp.service;
 
-import com.spring.bike.bikeshopapp.entity.Category;
-import com.spring.bike.bikeshopapp.entity.Product;
-import com.spring.bike.bikeshopapp.model.ProductDTO;
+import com.spring.bike.bikeshopapp.common.ApiResponse;
+import com.spring.bike.bikeshopapp.dto.product.UpdateProductDTO;
+import com.spring.bike.bikeshopapp.model.Category;
+import com.spring.bike.bikeshopapp.model.Product;
+import com.spring.bike.bikeshopapp.dto.product.CreateProductDTO;
+import com.spring.bike.bikeshopapp.repository.CategoryRepository;
 import com.spring.bike.bikeshopapp.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.spring.bike.bikeshopapp.service.mappers.ProductMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -13,36 +17,40 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class ProductService {
-    private ProductRepository repository;
-    @Autowired
-    public ProductService(ProductRepository repository) {
-        this.repository = repository;
+@RequiredArgsConstructor
+public class ProductService implements ProductMapper{
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+
+    public List<CreateProductDTO> listProducts() {
+        return productRepository.findAll(Sort.by("id").ascending()).stream().map(p -> new CreateProductDTO(p)).collect(Collectors.toList());
     }
-    public List<ProductDTO> listProducts() {
-        return repository.findAll(Sort.by("id").ascending()).stream().map(p -> new ProductDTO(p)).collect(Collectors.toList());
+    public void createProduct(CreateProductDTO createProductDTO, Category category) {
+        productRepository.save(DTOtoProduct(createProductDTO, category));
     }
-    public void createProduct(ProductDTO productDTO, Category category) {
-        repository.save(DTOtoProduct(productDTO, category));
-    }
+
     public Optional<Product> readProduct(Long id) {
-        return repository.findById(id);
+        return productRepository.findById(id);
     }
     public void deleteProduct(Long id) {
-        repository.deleteById(id);
+        productRepository.deleteById(id);
     }
-    public void updateProduct(Long id, ProductDTO productDTO, Category category) {
-        Product product = DTOtoProduct(productDTO, category);
-        product.setId(id);
-        repository.save(product);
-    }
-    private Product DTOtoProduct(ProductDTO productDTO, Category category) {
-        Product product = new Product();
-        product.setName(productDTO.getName());
-        product.setPrice(productDTO.getPrice());
-        product.setDescription(productDTO.getDescription());
-        product.setInStorage(productDTO.isInStorage());
-        product.setCategory(category);
-        return product;
+    public ApiResponse updateProduct(UpdateProductDTO updateProductDTO, Product product) {
+        if (updateProductDTO.getCategoryId() != null) {
+            Optional<Category> category = categoryRepository.findById(updateProductDTO.getCategoryId());
+            if (category.isEmpty()) return new ApiResponse(false, "invalid category");
+            product.setCategory(category.get());
+        }
+        if (updateProductDTO.getName() != null) {
+            product.setName(updateProductDTO.getName());
+        }
+        if (updateProductDTO.getDescription() != null) {
+            product.setDescription(updateProductDTO.getDescription());
+        }
+        if (updateProductDTO.getPrice() != null) {
+            product.setPrice(updateProductDTO.getPrice());
+        }
+        productRepository.save(product);
+        return new ApiResponse(true, "product was updated successfully");
     }
 }
