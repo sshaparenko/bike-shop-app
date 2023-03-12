@@ -1,20 +1,17 @@
 package com.spring.bike.bikeshopapp.service;
 
-import com.spring.bike.bikeshopapp.entity.Category;
+import com.spring.bike.bikeshopapp.model.Category;
 import com.spring.bike.bikeshopapp.repository.CategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
-    private CategoryRepository repository;
-    @Autowired
-    public CategoryService(CategoryRepository repository) {
-        this.repository = repository;
-    }
+    private final CategoryRepository repository;
 
     public List<Category> listCategories() {
         return repository.findAll();

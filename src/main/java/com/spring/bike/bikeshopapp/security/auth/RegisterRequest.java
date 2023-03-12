@@ -1,4 +1,4 @@
-package com.spring.bike.bikeshopapp.common;
+package com.spring.bike.bikeshopapp.security.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
-package com.spring.bike.bikeshopapp.model;
+package com.spring.bike.bikeshopapp.dto.order;
 
-import com.spring.bike.bikeshopapp.entity.Order;
+import com.spring.bike.bikeshopapp.model.Order;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,17 +11,9 @@ import java.sql.Date;
 @NoArgsConstructor
 public class OrderDTO {
     private Long id;
-    @NotNull
-    @DateTimeFormat(pattern = "year-month-day")
-    @Past(message = "invalid date")
     private Date creationDate;
-    @DateTimeFormat(pattern = "year-month-day")
-    @Future(message = "invalid date")
     private Date deliveryDate;
-    @NotNull
-    @Min(value = 0, message = "invalid price")
     private Integer price;
-    @NotNull
     private Long userId;
     public OrderDTO(Order order) {
         this.setId(order.getId());

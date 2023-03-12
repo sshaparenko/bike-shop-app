@@ -3,7 +3,7 @@ package com.spring.bike.bikeshopapp.service;
 import com.spring.bike.bikeshopapp.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.spring.bike.bikeshopapp.entity.Role;
+import com.spring.bike.bikeshopapp.model.Role;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +13,7 @@ import java.util.Optional;
 public class RoleService {
     private final RoleRepository repository;
 
-    public List<Role> listRoles() {
+    public List<Role> list() {
         return repository.findAll();
     }
     public Optional<Role> readRole(Long id) {

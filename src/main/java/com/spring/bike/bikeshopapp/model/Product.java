@@ -1,19 +1,17 @@
-package com.spring.bike.bikeshopapp.entity;
+package com.spring.bike.bikeshopapp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
+@Builder
+@AllArgsConstructor
 public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,15 +26,9 @@ public class Product implements Serializable {
     @JoinColumn(name = "id_category", nullable = false)
     Category category;
     @JsonIgnore
-    @ManyToMany(mappedBy = "products")
+    @ManyToMany(mappedBy = "products", cascade = CascadeType.PERSIST)
     Set<Order> orders;
-
-    public Product(String name, Integer price, String description, boolean inStorage, Category category) {
-        this.name = name;
-        this.price = price;
-        this.description = description;
-        this.inStorage = inStorage;
-        this.category = category;
+    public Product(){
 
     }
 }

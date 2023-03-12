@@ -1,4 +1,4 @@
-package com.spring.bike.bikeshopapp.entity;
+package com.spring.bike.bikeshopapp.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,10 +15,6 @@ import java.io.Serializable;
 public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_category")
     private Long id;
     private @NotBlank String name;
-    public Category(String name) {
-        this.name = name;
-    }
 }
