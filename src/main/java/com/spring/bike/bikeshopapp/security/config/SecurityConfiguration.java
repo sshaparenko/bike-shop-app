@@ -25,6 +25,7 @@ public class SecurityConfiguration {
                         authorize -> authorize
                                 .requestMatchers(new AntPathRequestMatcher("/api/v1/auth/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/swagger-ui.html"), new AntPathRequestMatcher("/swagger-ui/**"), new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/api/v1/user")).hasAnyRole("USER", "ADMIN")
                                 .requestMatchers(new AntPathRequestMatcher("/api/v1/admin/**")).hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )

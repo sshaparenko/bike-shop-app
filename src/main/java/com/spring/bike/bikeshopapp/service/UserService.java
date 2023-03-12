@@ -1,11 +1,11 @@
 package com.spring.bike.bikeshopapp.service;
 
-import com.spring.bike.bikeshopapp.entity.Role;
-import com.spring.bike.bikeshopapp.entity.User;
-import com.spring.bike.bikeshopapp.model.UserDTO;
+import com.spring.bike.bikeshopapp.model.Role;
+import com.spring.bike.bikeshopapp.model.User;
+import com.spring.bike.bikeshopapp.dto.UserDTO;
 import com.spring.bike.bikeshopapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
     public List<UserDTO> listUsers() {
         return repository.findAll().stream().map(u -> new UserDTO(u)).collect(Collectors.toList());
     }
@@ -39,7 +40,7 @@ public class UserService {
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setLoginName(userDTO.getLoginName());
-        user.setPassword(userDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setAddress(userDTO.getAddress());
         user.setPhone(userDTO.getPhone());
         user.setRole(role);
