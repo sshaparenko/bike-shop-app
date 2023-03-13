@@ -1,6 +1,7 @@
 package com.spring.bike.bikeshopapp.service;
 
 
+import com.spring.bike.bikeshopapp.dto.order.UpdateOrderDTO;
 import com.spring.bike.bikeshopapp.model.Order;
 import com.spring.bike.bikeshopapp.model.User;
 import com.spring.bike.bikeshopapp.dto.order.OrderDTO;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.sql.Date;
 
 //todo add, delete, update order
 @Service
@@ -36,5 +38,22 @@ public class OrderBaseService {
         order.setPrice(orderDTO.getPrice());
         order.setUser(user);
         return order;
+    }
+
+    public void updateOrder(Order order, UpdateOrderDTO dto) {
+        Date creationDate = dto.getCreationDate();
+        Date deliveryDate = dto.getDeliveryDate();
+        Integer price = dto.getPrice();
+        if (creationDate != null)
+            order.setCreationDate(creationDate);
+        if(deliveryDate != null)
+            order.setDeliveryDate(deliveryDate);
+        if (price != null)
+            order.setPrice(price);
+        orderRepository.save(order);
+    }
+
+    public void deleteOrder(Long id) {
+        orderRepository.deleteById(id);
     }
 }
