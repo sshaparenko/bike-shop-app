@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ProductService implements ProductMapper{
+public class ProductService implements ProductMapper {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
 
@@ -49,6 +49,9 @@ public class ProductService implements ProductMapper{
         }
         if (updateProductDTO.getPrice() != null) {
             product.setPrice(updateProductDTO.getPrice());
+        }
+        if (updateProductDTO.getInStorage() != null) {
+            product.setInStorage(updateProductDTO.getInStorage());
         }
         productRepository.save(product);
         return new ApiResponse(true, "product was updated successfully");

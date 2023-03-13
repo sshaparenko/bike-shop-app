@@ -1,23 +1,16 @@
 package com.spring.bike.bikeshopapp.dto.product;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class UpdateProductDTO {
-
-    private Long id;
-    private @NotNull String name;
-    private @NotNull @Min(value = 0) Integer price;
-    private @NotNull String description;
-    private @NotNull boolean inStorage;
-    private @NotNull Long categoryId;
+    private String name;
+    private @Positive Integer price;
+    private String description;
+    private Boolean inStorage;
+    private Long categoryId;
 }
