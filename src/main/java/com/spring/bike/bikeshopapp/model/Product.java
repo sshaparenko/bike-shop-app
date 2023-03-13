@@ -5,6 +5,7 @@ import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -17,10 +18,13 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private @NotNull String name;
-    private @NotNull Integer price;
+    private @NotNull @Positive Integer price;
     private @NotNull String description;
     @Column(name = "in_storage")
     private @NotNull boolean inStorage;
+    @Column(name = "image")
+    private byte[] imageBytes;
+    private String color;
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_category", nullable = false)

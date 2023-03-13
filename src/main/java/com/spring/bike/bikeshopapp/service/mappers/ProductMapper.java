@@ -11,6 +11,8 @@ public interface ProductMapper {
                 .price(createProductDTO.getPrice())
                 .description(createProductDTO.getDescription())
                 .inStorage(createProductDTO.isInStorage())
+                .imageBytes(createProductDTO.getImageBytes())
+                .color(createProductDTO.getColor())
                 .category(category)
                 .build();
     }

@@ -16,6 +16,8 @@ public class CreateProductDTO {
     private @NotNull @Min(value = 0) Integer price;
     private @NotNull String description;
     private @NotNull boolean inStorage;
+    private byte[] imageBytes;
+    private String color;
     private @NotNull Long categoryId;
 
     public CreateProductDTO(@NotNull String name, @NotNull Integer price, @NotNull String description, @NotNull boolean inStorage, @NotNull Long categoryId) {
@@ -31,6 +33,8 @@ public class CreateProductDTO {
         this.setPrice(product.getPrice());
         this.setDescription(product.getDescription());
         this.setInStorage(product.isInStorage());
+        this.setImageBytes(product.getImageBytes());
+        this.setColor(product.getColor());
         this.setCategoryId(product.getCategory().getId());
     }
 }
