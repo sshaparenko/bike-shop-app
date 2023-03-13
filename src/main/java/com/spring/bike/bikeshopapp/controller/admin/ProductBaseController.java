@@ -11,20 +11,14 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * all products
- * delete product
- * update product
- * add product
- * */
 @RestController
 @RequiredArgsConstructor
 @SecurityRequirement(name = "jwt")
@@ -54,7 +48,8 @@ public class ProductBaseController {
         return new ResponseEntity<>(new ApiResponse(false, "product id is invalid"), HttpStatus.NOT_FOUND);
     }
     @PatchMapping("product/update/{id}")
-    public ResponseEntity<ApiResponse> updateProduct(@PathVariable @Positive Long id, @Valid @RequestBody UpdateProductDTO dto) {
+    public ResponseEntity<ApiResponse> updateProduct(@PathVariable @Positive Long id, @Valid @RequestBody UpdateProductDTO dto, BindingResult result) {
+        if (result.hasErrors()) return new ResponseEntity<>(new ApiResponse(false, "bad request"), HttpStatus.BAD_REQUEST);
         Optional<Product> productOptional = productService.readProduct(id);
         if (productOptional.isPresent()) {
             ApiResponse response = productService.updateProduct(dto, productOptional.get());
@@ -62,6 +57,6 @@ public class ProductBaseController {
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
-        return new ResponseEntity<>(new ApiResponse(true, "product id is invalid"), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ApiResponse(false, "product id is invalid"), HttpStatus.NOT_FOUND);
     }
 }
